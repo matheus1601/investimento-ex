@@ -1,5 +1,6 @@
 package br.com.investimento.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,9 +13,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import lombok.Data;
+
 //@Entity = O nome da tabela da entidade será o mesmo da classe com a anotação
 //@SequenceGenerator = Define um gerador de chave primária baseado em sequence de banco de dados
 //AllocationSize = valor de incremento na sequence
+@Data
 @Entity(name="investidor")
 @SequenceGenerator(name="id_investidor", sequenceName = "sq_investidor", allocationSize = 1)
 public class InvestidorModel {
@@ -34,62 +38,13 @@ public class InvestidorModel {
 	//CascadeType = Indica quando uma alteração na entidade pai será propagara para as entidades filhas
 	//CascadeType.PERSIST = somente operação de persist será refletida
 	//@JoinColumn = adiciona uma coluna na tabela
-	@OneToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="id_endereco")
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private EnderecoModel endereco;
 	
 	//mappedBy = indica o nome do atributo que mapeia aassociação do que mapeia a
 	//associação do lado dono da chave estrangeira 
-	@OneToMany(mappedBy = "investidor", cascade = CascadeType.PERSIST)
-	private List <DeclaracaoModel> declarações;
+	@OneToMany(mappedBy = "investidor", cascade =  {CascadeType.PERSIST, CascadeType.MERGE})
+	private List <DeclaracaoModel> declaracoes = new ArrayList<DeclaracaoModel>();
+
 	
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public EnderecoModel getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(EnderecoModel endereco) {
-		this.endereco = endereco;
-	}
-
-	public List<DeclaracaoModel> getDeclarações() {
-		return declarações;
-	}
-
-	public void setDeclarações(List<DeclaracaoModel> declarações) {
-		this.declarações = declarações;
-	}
-
 }
