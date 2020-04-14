@@ -29,8 +29,5 @@ public class DeclaracaoModel {
 
 	private LocalDateTime data;
 	
-	@ManyToOne
-	@JoinColumn(name="id_investidor")
-	private InvestidorModel investidor;
 	
 }
