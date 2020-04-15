@@ -21,6 +21,7 @@ import lombok.Data;
 //@Entity = O nome da tabela da entidade será o mesmo da classe com a anotação
 //@SequenceGenerator = Define um gerador de chave primária baseado em sequence de banco de dados
 //AllocationSize = valor de incremento na sequence
+@Data
 @Entity(name="investidor")
 @SequenceGenerator(name="id_investidor", sequenceName = "sq_investidor", allocationSize = 1)
 public class InvestidorModel {
@@ -54,70 +55,4 @@ public class InvestidorModel {
 	@OneToMany(cascade = {CascadeType.MERGE})
 	private List<InvestimentoForaDaPlataformaModel> investimentosForaDaPlataforma = new ArrayList<>();
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public PerfilInvestidor getPerfil() {
-		return perfil;
-	}
-
-	public void setPerfil(PerfilInvestidor perfil) {
-		this.perfil = perfil;
-	}
-
-	public EnderecoModel getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(EnderecoModel endereco) {
-		this.endereco = endereco;
-	}
-
-	public List<DeclaracaoModel> getDeclaracoes() {
-		return declaracoes;
-	}
-
-	public void setDeclaracoes(List<DeclaracaoModel> declaracoes) {
-		this.declaracoes = declaracoes;
-	}
-
-	public List<InvestimentoForaDaPlataformaModel> getInvestimentosForaDaPlataforma() {
-		return investimentosForaDaPlataforma;
-	}
-
-	public void setInvestimentosForaDaPlataforma(List<InvestimentoForaDaPlataformaModel> investimentosForaDaPlataforma) {
-		this.investimentosForaDaPlataforma = investimentosForaDaPlataforma;
-	}
-
-	
-	
 }

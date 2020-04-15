@@ -59,8 +59,6 @@ public class InvestimentoApplication {
 	@PostMapping("/investimento-externo/novo/{email}")
 	public InvestidorModel adicionaInvestimentoExterno(@RequestBody InvestimentoForaDaPlataformaModel investimento,
 			@PathVariable String email) {
-		return busca(email).map(investidor -> {
-			investidor.setInvest(investimento.getId());
-		});
+		return busca(email);
 	}
 }
