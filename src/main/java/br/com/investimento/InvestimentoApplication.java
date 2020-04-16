@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 
 import br.com.investimento.exception.BadRequest;
+import br.com.investimento.model.DeclaracaoModel;
 import br.com.investimento.model.InvestidorModel;
 import br.com.investimento.model.InvestimentoForaDaPlataformaModel;
+import br.com.investimento.service.DeclaracaoService;
 import br.com.investimento.service.InvestidorService;
 import br.com.investimento.service.InvestimentoService;
 
@@ -29,17 +31,23 @@ public class InvestimentoApplication {
 
 	@Autowired
 	private Gson gson;
+
+	@Autowired
+	private InvestidorService investidorService;
 	
 	@Autowired
 	private InvestimentoService investimentoService;
+	
+	@Autowired
+	private DeclaracaoService declaracaoService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(InvestimentoApplication.class, args);
 	}
 
-	@GetMapping("/investidor/{id}")
-	public String encontrarUsuario() {
-		return "Usuario encontrado";
+	@GetMapping("/investidor/{email}")
+	public InvestidorModel encontrarUsuario(@PathVariable String email) {
+		return investidorService.busca(email);
 	}
 
 	@PostMapping("/investidor/novo")
@@ -68,6 +76,11 @@ public class InvestimentoApplication {
 	public InvestidorModel adicionaInvestimentoExterno(@RequestBody InvestimentoForaDaPlataformaModel investimento, @PathVariable String email) {
  		return investimentoService.adicionaNovoInvestimentoExterno(investimento, email);
 	}
+ 	
+ 	@PostMapping("/declaracao/assinatura/novo")
+ 	public DeclaracaoModel assinaDeclaracao(@RequestBody DeclaracaoModel declaracao) {
+ 		return declaracaoService.assinaDeclaracao(declaracao);
+ 	}
  	
  	
 }

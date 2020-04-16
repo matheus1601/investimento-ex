@@ -7,14 +7,11 @@ import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import br.com.investimento.enums.PerfilInvestidor;
 import lombok.Data;
 
 @Data
@@ -29,24 +26,17 @@ public class InvestidorModel {
 	private String email;
 	
 	private String cpf;
-
-	@Enumerated(EnumType.STRING)
-	private PerfilInvestidor perfil;
 	
 	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	private EnderecoModel endereco;
 	
-	@OneToMany(cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@OneToMany(cascade =  {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	private List <DeclaracaoModel> declaracoes = new ArrayList<>();
 	
 	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
 	private List<InvestimentoForaDaPlataformaModel> investimentosForaDaPlataforma = new ArrayList<>();
 	
-	public void atualizaPerfil() {
-		this.perfil = this.perfil.defini(somaInvestimentosForaDaPlataforma());
-	}
-	
-	private BigDecimal somaInvestimentosForaDaPlataforma() {
+	public BigDecimal somaInvestimentosForaDaPlataforma() {
 		return new BigDecimal(this.investimentosForaDaPlataforma.stream()
 												 				.mapToInt(i -> i.getValor().intValue())
 												 				.sum());
@@ -54,5 +44,9 @@ public class InvestidorModel {
 	
 	public void novoInvestimentoExterno(final InvestimentoForaDaPlataformaModel investimento) {
 		this.investimentosForaDaPlataforma.add(investimento);
+	}
+	
+	public void novaDeclaracao(final DeclaracaoModel declaracao) {
+		this.declaracoes.add(declaracao);
 	}
 }

@@ -4,19 +4,19 @@ import java.math.BigDecimal;
 
 public enum PerfilInvestidor {
 	
-	ATE(10000) {
+	ATE_10K(10000) {
 		@Override
 		public PerfilInvestidor defini(BigDecimal somaDosValores) {
-			return somaDosValores.intValue() <= this.valor() ? this : MENOS_DE.defini(somaDosValores);
+			return somaDosValores.intValue() <= this.valor() ? this : MENOS_DE_100K.defini(somaDosValores);
 		}
 	},
-	MENOS_DE(100000) {
+	MENOS_DE_100K(100000) {
 		@Override
 		public PerfilInvestidor defini(BigDecimal somaDosValores) {
-			return somaDosValores.intValue() <= this.valor() ? this : ACIMA_DE.defini(somaDosValores);
+			return somaDosValores.intValue() <= this.valor() ? this : ACIMA_DE_100K.defini(somaDosValores);
 		}
 	},
-	ACIMA_DE(100000) {
+	ACIMA_DE_100K(100000) {
 		@Override
 		public PerfilInvestidor defini(BigDecimal somaDosValores) {
 			return somaDosValores.intValue() > this.valor() ? this : null;
