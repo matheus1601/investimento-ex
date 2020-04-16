@@ -1,6 +1,7 @@
 package br.com.investimento.model;
 
 import java.math.BigDecimal;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -19,5 +20,4 @@ public class InvestimentoForaDaPlataformaModel {
 	private BigDecimal valor;
 	
 	private LocalDate data;
-
 }
