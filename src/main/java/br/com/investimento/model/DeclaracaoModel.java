@@ -8,6 +8,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
+import com.google.gson.annotations.Expose;
+
 import br.com.investimento.enums.PerfilInvestidor;
 import lombok.Data;
 
@@ -22,15 +24,17 @@ public class DeclaracaoModel {
 	
 	private String userAgent;
 	
+	@Expose(deserialize = true)
 	private boolean assinado;
 
 	private LocalDateTime data;
 	
 	@Enumerated(EnumType.STRING)
+	@Expose(deserialize = true)
 	private PerfilInvestidor perfil = PerfilInvestidor.ATE_10K;
 	
 	public void atualizaPerfil(InvestidorModel investidor) {
-		this.perfil = perfil.defini(investidor.somaInvestimentosForaDaPlataforma());
+		this.perfil = perfil.define(investidor.somaInvestimentosForaDaPlataforma());
 	}
 
 	@Override
@@ -53,6 +57,10 @@ public class DeclaracaoModel {
 		int result = 1;
 		result = prime * result + ((perfil == null) ? 0 : perfil.hashCode());
 		return result;
+	}
+	
+	public void assina() {
+		this.assinado = true;
 	}
 	
 }

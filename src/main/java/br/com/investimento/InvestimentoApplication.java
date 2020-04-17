@@ -74,7 +74,7 @@ public class InvestimentoApplication {
 	
  	@PostMapping("/investimento-externo/novo/{email}")
 	public InvestidorModel adicionaInvestimentoExterno(@RequestBody InvestimentoForaDaPlataformaModel investimento, @PathVariable String email) {
- 		return investimentoService.adicionaNovoInvestimentoExterno(investimento, email);
+ 		return investimentoService.atualizaInvestidor(investimento, email);
 	}
  	
  	@PostMapping("/declaracao/assinatura/novo")

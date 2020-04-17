@@ -19,44 +19,23 @@ public class DeclaracaoService {
 		return repository.save(model);
 	}
 	
-	public DeclaracaoModel retornaDeclaracaoSalva(DeclaracaoModel declaracao) {
-		if (!validaId(declaracao.getId()))
+	public DeclaracaoModel retornaDeclaracaoSalva(String id) {
+		if (!validaExistenciaDeclaracao(id))
 			throw new BadRequest("ID invalido");
-		 DeclaracaoModel declaracaoSalva = repository.findById(declaracao.getId());
+		 DeclaracaoModel declaracaoSalva = repository.findById(id);
 		 return declaracaoSalva;
 	}
 
-	public boolean validaId(String id) {
-				
-		if(repository.existsById(id) == false) 
-			return false;
-			
-		else return true;
+	public boolean validaExistenciaDeclaracao(String id) {
+		return repository.existsById(id);
 	}
 	
-	public void validaPerfil(DeclaracaoModel declaracao) {
-		DeclaracaoModel declaracaoSalva = retornaDeclaracaoSalva(declaracao);
-		if(declaracao.getPerfil() != declaracaoSalva.getPerfil()) {
-			declaracao.setPerfil(declaracaoSalva.getPerfil());
-		}
-	}
-	
-	public void validaAssinatura(DeclaracaoModel declaracao) {
-		DeclaracaoModel declaracaoSalva = retornaDeclaracaoSalva(declaracao);
-		if(declaracaoSalva.isAssinado() == true && declaracao.isAssinado() == false ) {
-			throw new BadRequest("Nao e possivel mudar o estado da assinatura");
-		}
-	}
 
-	public DeclaracaoModel assinaDeclaracao(DeclaracaoModel declaracaoRequest) {
+	public DeclaracaoModel assinaDeclaracao(DeclaracaoModel declaracao) {
 		
-		validaPerfil(declaracaoRequest);
+		declaracao.assina();
 		
-		validaAssinatura(declaracaoRequest);
-		
-		declaracaoRequest.setAssinado(true);
-		
-		return this.save(declaracaoRequest);
+		return this.save(declaracao);
 	}
 
 }

@@ -1,6 +1,7 @@
 package br.com.investimento.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,28 +23,40 @@ public class InvestimentoService {
 		return valor.compareTo(BigDecimal.ZERO) > 0;
 	}
 	
-	public InvestidorModel adicionaNovoInvestimentoExterno(final InvestimentoForaDaPlataformaModel investimento, String email){
-		validaValorInvestimentoExterno(investimento);
-
+	public InvestidorModel atualizaInvestidor(InvestimentoForaDaPlataformaModel investimento, String email) {
 		InvestidorModel investidor = investidorService.busca(email);
-
+		adicionaNovoInvestimentoExterno(investimento, email, investidor);
+		atualizaDeclaracoesDoPerfil(investidor);
+		return investidor;
+	}
+	
+	private void  adicionaNovoInvestimentoExterno(final InvestimentoForaDaPlataformaModel investimento, String email,
+																				  		InvestidorModel investidor){
+		validaValorInvestimentoExterno(investimento);
 		investidor.novoInvestimentoExterno(investimento);
-
+	}
+	
+	private InvestidorModel atualizaDeclaracoesDoPerfil(InvestidorModel investidor) {
 		DeclaracaoModel declaracao = new DeclaracaoModel();
-
 		declaracao.atualizaPerfil(investidor);
-
-		for (int i = 0; i < investidor.getDeclaracoes().size(); i++) {
-			if (declaracao.equals(investidor.getDeclaracoes().get(i)))
-				return this.investidorService.save(investidor);
-		}
+		if (validaNovaDeclaracao(investidor, declaracao)) 
 		investidor.novaDeclaracao(declaracao);
 		return this.investidorService.save(investidor);
-
+		
 	}
+	
+	private boolean validaNovaDeclaracao(InvestidorModel investidor, DeclaracaoModel declaracao) {
+		for (int i = 0; i < investidor.getDeclaracoes().size(); i++) {
+			if (declaracao.equals(investidor.getDeclaracoes().get(i)))
+			return false;
+		}
+			return true;
+	}
+	
 	
 	private void validaValorInvestimentoExterno(final InvestimentoForaDaPlataformaModel investimento) {
 		if(!isValido(investimento.getValor()))
 			throw new BadRequest("Valor invalido");
 	}
+	
 }
