@@ -9,4 +9,8 @@ import br.com.investimento.model.DeclaracaoModel;
 public interface DeclaracaoRepository extends JpaRepository<DeclaracaoModel, Integer> {
 	
 	DeclaracaoModel findById(String id);
+
+	boolean existsById(String id);
+
+	
 }

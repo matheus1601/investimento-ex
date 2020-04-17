@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.investimento.enums.PerfilInvestidor;
 import br.com.investimento.exception.BadRequest;
 import br.com.investimento.model.DeclaracaoModel;
 import br.com.investimento.model.InvestidorModel;
